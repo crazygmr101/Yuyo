@@ -689,7 +689,7 @@ class PaginatorPool:
         if events is None and isinstance(rest, traits.EventManagerAware):
             events = rest
 
-        if events is None:
+        elif events is None:
             raise ValueError("Missing event manager aware client.")
 
         self.blacklist: typing.MutableSequence[snowflakes.Snowflake] = []
