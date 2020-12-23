@@ -279,7 +279,7 @@ class AbstractPaginator(abc.ABC):
         raise NotImplementedError
 
 
-async def _collect_iterator(iterator: IteratorT[ValueT], /) -> typing.MutableSequence[ValueT]:
+async def _collect_iterator(iterator: IteratorT[ValueT], /) -> typing.List[ValueT]:
     """Collect the rest of an async or sync iterator into a mutable sequence
 
     Parameters
