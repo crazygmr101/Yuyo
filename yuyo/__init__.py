@@ -33,14 +33,14 @@
 
 from __future__ import annotations
 
-__slots__: typing.Sequence[str] = [
+__all__: typing.Sequence[str] = [
     # backoff.py
     "backoff",
     "Backoff",
     "ErrorManager",
     # list_status.py
     "CountStrategyProto",
-    "DispatcherStrategy",
+    "EventStrategy",
     "RESTStrategy",
     "ManagerProto",
     "ServiceProto",
