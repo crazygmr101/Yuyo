@@ -669,28 +669,28 @@ class PaginatorPool:
     ----------
     rest : hikari.traits.RESTAware
         The REST aware client to register this paginator pool with.
-    dispatch : typing.Optional[hikari.traits.DispatcherAware]
-        The dispatcher aware client to register this paginator pool with.
+    events : typing.Optional[hikari.traits.EventManagerAware]
+        The event manager aware client to register this paginator pool with.
 
         !!! note
-            This may only be left as `builtins.None` if `rest` is dispatcher
+            This may only be left as `None` if `rest` is event manager
             aware.
 
     Raises
     ------
     ValueError
-        If `dispatch` is left as `builtins.None` when `rest` is not also
-        dispatcher aware.
+        If `events` is left as `None` when `rest` is not also
+        event manager aware.
     """
 
     __slots__: typing.Sequence[str] = ("blacklist", "_events", "_gc_task", "_listeners", "_rest")
 
     def __init__(self, rest: traits.RESTAware, events: typing.Optional[traits.EventManagerAware] = None, /) -> None:
-        if events is None and isinstance(rest, traits.EventManagerAware):
-            events = rest
+        if events is None:
+            if not isinstance(rest, traits.EventManagerAware):
+                raise ValueError("Missing event manager aware client.")
 
-        elif events is None:
-            raise ValueError("Missing event manager aware client.")
+            events = rest
 
         self.blacklist: typing.MutableSequence[snowflakes.Snowflake] = []
         self._events = events
