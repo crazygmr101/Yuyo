@@ -396,7 +396,7 @@ class Paginator(AbstractPaginator):
             raise ValueError(f"Invalid value passed for `iterator`, expected an iterator but got {type(iterator)}")
 
         self._authors = set(map(snowflakes.Snowflake, authors))
-        self._buffer: typing.MutableSequence[EntryT] = []
+        self._buffer: typing.List[EntryT] = []
         self._channel_id = channel
         self._emoji_mapping: typing.Mapping[
             typing.Union[emojis.Emoji, snowflakes.Snowflake],
@@ -692,10 +692,10 @@ class PaginatorPool:
 
             events = rest
 
-        self.blacklist: typing.MutableSequence[snowflakes.Snowflake] = []
+        self.blacklist: typing.List[snowflakes.Snowflake] = []
         self._events = events
         self._gc_task: typing.Optional[asyncio.Task[None]] = None
-        self._listeners: typing.MutableMapping[snowflakes.Snowflake, AbstractPaginator] = {}
+        self._listeners: typing.Dict[snowflakes.Snowflake, AbstractPaginator] = {}
         self._rest = rest
 
     async def _gc(self) -> None:
@@ -908,7 +908,7 @@ async def async_string_paginator(
     # As this is incremented before yielding and zero-index we have to start at -1.
     page_number = -1
     page_size = 0
-    page: typing.MutableSequence[str] = []
+    page: typing.List[str] = []
 
     while (line := await _seek_async_iterator(lines, default=None)) is not None:
         # If the page is already populated and adding the current line would bring it over one of the predefined limits
@@ -980,7 +980,7 @@ def sync_string_paginator(
     # As this is incremented before yielding and zero-index we have to start at -1.
     page_number = -1
     page_size = 0
-    page: typing.MutableSequence[str] = []
+    page: typing.List[str] = []
 
     while (line := _seek_sync_iterator(lines, default=None)) is not None:
         # If the page is already populated and adding the current line would bring it over one of the predefined limits
